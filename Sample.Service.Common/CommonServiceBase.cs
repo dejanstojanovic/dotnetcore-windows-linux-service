@@ -1,24 +1,30 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Sample.Service
 {
-    public class CommonServiceBase : ICommonService
+    public abstract class CommonServiceBase : ICommonService
     {
-        public CommonServiceBase()
-        {
+        private IConfiguration configuration;
+        private IHostingEnvironment environment;
+        ILogger<CommonServiceBase> logger;
 
+        public CommonServiceBase(
+            IConfiguration configuration,
+            IHostingEnvironment environment,
+            ILogger<CommonServiceBase> logger)
+        {
+            this.configuration = configuration;
+            this.environment = environment;
+            this.logger = logger;
         }
 
-        public void OnStart()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void OnStart();
 
-        public void OnStop()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void OnStop();
     }
 }
