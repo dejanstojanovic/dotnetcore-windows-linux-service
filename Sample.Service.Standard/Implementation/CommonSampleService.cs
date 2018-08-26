@@ -6,7 +6,7 @@ namespace Sample.Service.Standard.Implementation
 {
     public class CommonSampleService : CommonServiceBase
     {
-        public CommonSampleService(IConfiguration configuration, IHostingEnvironment environment, ILogger<CommonSampleService> logger) : base(configuration, environment, logger)
+        public CommonSampleService(IConfiguration configuration, ILogger<CommonSampleService> logger) : base(configuration, logger)
         {
             logger.LogInformation("Class instatiated");
         }

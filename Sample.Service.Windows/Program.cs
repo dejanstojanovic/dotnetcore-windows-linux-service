@@ -3,13 +3,10 @@ using Sample.Service.Standard.Implementation;
 using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using System.IO;
+using Serilog;
 
 namespace Sample.Service.Windows
 {
@@ -18,29 +15,52 @@ namespace Sample.Service.Windows
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// 
+
+
+
         static void Main(string[] args)
         {
-
+            #region Dependecy injection setup
             ServiceCollection services = new ServiceCollection();
 
+            //Create configuration builder
+            var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+
+            //Inject configuration
             services.AddSingleton<IConfiguration>(provider =>
             {
-                return new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .AddEnvironmentVariables(prefix: "ASPNETCORE_")
-                .Build();
+                return configurationBuilder.Build();
             });
-            services.AddLogging();
-            services.AddSingleton(typeof(ICommonService), typeof(CommonSampleService));
-            services.AddSingleton(typeof(ServiceBase), typeof(Service1));
-            
 
+            //Inject Serilog
+            services.AddLogging(options =>
+           {
+               options.AddSerilog(
+                   new LoggerConfiguration()
+                              .ReadFrom.Configuration(configurationBuilder.Build())
+                              .CreateLogger()
+                   );           
+           });           
+            
+            //Inject common service
+            services.AddSingleton(typeof(ICommonService), typeof(CommonSampleService));
+
+            //Inject concrete implementaion of the service
+            services.AddSingleton(typeof(ServiceBase), typeof(Service1));
+
+            //Build DI provider
             ServiceProvider serviceProvider = services.BuildServiceProvider();
+
+
+            #endregion
 
             if (Debugger.IsAttached)
             {
-                //new Service1(commonService).StartService(args);
+                //Console Debug mode
 
                 var svc = serviceProvider.GetService<ServiceBase>() as Service1;
                 svc.StartService(args);
@@ -49,12 +69,12 @@ namespace Sample.Service.Windows
             }
             else
             {
-                //Start servive  
+                //Start service
+                
                 ServiceBase[] ServicesToRun;
                 ServicesToRun = new ServiceBase[]
                 {
-                //new Service1(commonService)
-                serviceProvider.GetService<ServiceBase>()
+                    serviceProvider.GetService<ServiceBase>()
                 };
                 ServiceBase.Run(ServicesToRun);
             }
