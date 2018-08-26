@@ -17,8 +17,6 @@ namespace Sample.Service.Windows
         /// </summary>
         /// 
 
-
-
         static void Main(string[] args)
         {
             #region Dependecy injection setup

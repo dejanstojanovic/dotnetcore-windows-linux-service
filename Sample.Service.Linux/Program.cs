@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Sample.Service.Standard;
 using Sample.Service.Standard.Implementation;
 using Serilog;
-using System;
 using System.IO;
 
 namespace Sample.Service.Linux
