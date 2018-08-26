@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Sample.Service.Standard;
+using Sample.Service.Standard.Implementation;
+using System;
+using System.Diagnostics;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sample.Service.Windows
 {
@@ -12,14 +11,33 @@ namespace Sample.Service.Windows
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            ICommonService commonService = new CommonSampleService(
+                logger:null,
+                environment:null,
+                configuration:null
+                );
+
+
+            if (Debugger.IsAttached)
             {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+
+                new Service1(commonService).StartService(args);
+                Console.ReadLine();
+            }
+            else
+            {
+                //Start servive  
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
+                new Service1(commonService)
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
+
+           
         }
     }
 }

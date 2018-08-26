@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sample.Service
+namespace Sample.Service.Standard
 {
    public interface ICommonService
     {

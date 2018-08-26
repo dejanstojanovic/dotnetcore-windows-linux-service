@@ -1,17 +1,20 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Sample.Service
+namespace Sample.Service.Standard
 {
     public abstract class CommonServiceBase : ICommonService
     {
         private IConfiguration configuration;
         private IHostingEnvironment environment;
         ILogger<CommonServiceBase> logger;
+
+
+        public IConfiguration Configuration => this.configuration;
+        public IHostingEnvironment Environment => this.Environment;
+        public ILogger<CommonServiceBase> Logger => this.logger;
+
 
         public CommonServiceBase(
             IConfiguration configuration,
