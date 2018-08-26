@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sample.Service.Standard
+﻿namespace Sample.Service.Standard
 {
-   public interface ICommonService
+    public interface ICommonService
     {
         void OnStart();
         void OnStop();
