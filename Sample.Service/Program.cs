@@ -2,12 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Sample.Service.Standard;
-using Sample.Service.Standard.Implementation;
 using Serilog;
 using System.IO;
 
-namespace Sample.Service.Linux
+namespace Sample.Service
 {
     class Program
     {
@@ -32,7 +30,6 @@ namespace Sample.Service.Linux
                 {
                     services.AddLogging();
                     services.AddHostedService<ServiceHost>();
-                    services.AddSingleton(typeof(ICommonService), typeof(CommonSampleService));
                 })
                 .ConfigureLogging((hostContext, configLogging) =>
                 {

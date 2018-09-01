@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Sample.Service.Standard;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sample.Service.Linux
+namespace Sample.Service
 {
     public class ServiceHost : IHostedService
     {
@@ -13,19 +12,16 @@ namespace Sample.Service.Linux
         ILogger<ServiceHost> logger;
         IHostingEnvironment environment;
         IConfiguration configuration;
-        ICommonService commonService;
         public ServiceHost(
             IConfiguration configuration,
             IHostingEnvironment environment,
             ILogger<ServiceHost> logger,
-            IApplicationLifetime appLifetime,
-            ICommonService commonService)
+            IApplicationLifetime appLifetime)
         {
             this.configuration = configuration;
             this.logger = logger;
             this.appLifetime = appLifetime;
             this.environment = environment;
-            this.commonService = commonService;
         }
 
 
@@ -46,17 +42,18 @@ namespace Sample.Service.Linux
         }
 
         private void OnStarted()
-        {           
-            this.commonService.OnStart();
+        {
+            this.logger.LogInformation("OnStarted method called.");
         }
 
         private void OnStopping()
         {
+            this.logger.LogInformation("OnStopping method called.");
         }
 
         private void OnStopped()
         {
-            this.commonService.OnStop();
+            this.logger.LogInformation("OnStopped method called.");
         }
     }
 }
