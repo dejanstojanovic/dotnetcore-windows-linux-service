@@ -11,8 +11,10 @@ sudo rm $githubrepository -r
 
 #pull from github
 git clone  https://github.com/$githubaccount/$githubrepository.git
-cd ./dotnetcore-windows-linux-service/Sample.Service
+cd ./dotnetcore-windows-linux-service
 git checkout $gitbranch
+cd ./Sample.Service
+
 
 #set dockerhub account
 dockeraccount="dejanstojanovic"
