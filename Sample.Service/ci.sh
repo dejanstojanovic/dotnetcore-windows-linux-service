@@ -1,21 +1,5 @@
 ﻿#!/bin/bash
 
-#set github account
-githubaccount="dejanstojanovic"
-githubrepository="dotnetcore-windows-linux-service"
-gitbranch="single-library"
-
-#cleanup folders
-sudo rm $githubrepository -r
-
-
-#pull from github
-git clone  https://github.com/$githubaccount/$githubrepository.git
-cd ./dotnetcore-windows-linux-service
-git checkout $gitbranch
-cd ./Sample.Service
-
-
 #set dockerhub account
 dockeraccount="dejanstojanovic"
 servicename="sampleservice"
