@@ -1,17 +1,21 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sample.Service
 {
-    public class ServiceHost : IHostedService
+    public class ServiceHost : IHostedService, IDisposable
     {
         IApplicationLifetime appLifetime;
         ILogger<ServiceHost> logger;
         IHostingEnvironment environment;
         IConfiguration configuration;
+
+        bool disposing = false;
+
         public ServiceHost(
             IConfiguration configuration,
             IHostingEnvironment environment,
@@ -54,6 +58,18 @@ namespace Sample.Service
         private void OnStopped()
         {
             this.logger.LogInformation("OnStopped method called.");
+        }
+
+        public void Dispose()
+        {
+            if (!disposing)
+            {
+                disposing = true;
+
+                //Do the dispose here
+                
+            }
+
         }
     }
 }
